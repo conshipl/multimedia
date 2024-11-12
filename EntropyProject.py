@@ -47,7 +47,7 @@ class EntropyCalculator():
         # Output number of files within shift of each other in size and entropy arrays
         print((f"\nFiles w/ Position +5/-5 Apart in Sorted Lists: {self.calculateFilesInShift(5)}\n"
                 f"Files w/ Position +10/-10 Apart in Sorted Lists: {self.calculateFilesInShift(10)}\n"
-                f"Files w/ Positon +25/-25 Apart in Sorted Lists: {self.calculateFilesInShift(25)}"))
+                f"Files w/ Position +25/-25 Apart in Sorted Lists: {self.calculateFilesInShift(25)}"))
 
     def calculateEntropy(self, image):
         
