@@ -44,6 +44,10 @@ class EntropyCalculator():
                 f"Duplicates in Middle 51: {self.calculateDuplicatesInInterval(25, 76)}\n"
                 f"Duplicates in Bottom 25: {self.calculateDuplicatesInInterval(76, 101)}"))
 
+        # Output number of duplicate files in each opposite interval in size and entropy arrays
+        print((f"\nDuplicates in Top 25 Entropy/Bottom 25 Size: {self.calculateDuplicatesInOppositeInterval(0, 25)}\n"
+                f"Duplicates in Bottom 25 Entropy/Top 25 Size: {self.calculateDuplicatesInOppositeInterval(76, 101)}"))
+
         # Output number of files within shift of each other in size and entropy arrays
         print((f"\nFiles w/ Position +5/-5 Apart in Sorted Lists: {self.calculateFilesInShift(5)}\n"
                 f"Files w/ Position +10/-10 Apart in Sorted Lists: {self.calculateFilesInShift(10)}\n"
@@ -84,6 +88,22 @@ class EntropyCalculator():
         # Slice the sorted arrays on start and end, create new sorted arrays with only file_names
         entropy_interval = [file_name for (file_name, entropy_value) in self.sorted_entropy[start:end]]
         size_interval = [file_name for (file_name, entropy_value) in self.sorted_size[start:end]]
+
+        # Compare the number of duplicate file names in the interval of the two arrays. Ideally, 
+        # this would show some correlation, like: "the smallest files have the lowest entropy".
+        return len(set(entropy_interval) & set(size_interval))
+
+    def calculateDuplicatesInOppositeInterval(self, start, end):
+        
+        # Slice the sorted_entropy on start and end, create new sorted array with only file_names
+        entropy_interval = [file_name for (file_name, entropy_value) in self.sorted_entropy[start:end]]
+
+        # Since I'm only using this to compare top 25 entropy w/ bottom 25 size and vice versa, this
+        # is the lazy way of getting it to work without actually finding [start:end]'s true opposite.
+        if (start == 0):
+            size_interval = [file_name for (file_name, entropy_value) in self.sorted_size[(len(self.sorted_size) - (end - start)):len(self.sorted_size)]]
+        else:
+            size_interval = [file_name for (file_name, entropy_value) in self.sorted_size[0:(end - start)]]
 
         # Compare the number of duplicate file names in the interval of the two arrays. Ideally, 
         # this would show some correlation, like: "the smallest files have the lowest entropy".
